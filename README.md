@@ -7,6 +7,10 @@ Unhandled exceptions are captured by `app.UseExceptionHandler()`, which requires
 
 Unsuccessful responses without a body are handled by `app.UseStatusCodePages()`. Without `builder.Services.AddProblemDetails()`, it returns `text/plain`; with it, it returns `application/problem+json`.
 
+```csharp
+[HttpGet("BadRequest")]
+public IActionResult GetBadRequest() => BadRequest();
+```
 ```
 curl.exe -i -X 'GET' 'http://localhost:5220/problemdetails/badrequest'
 
@@ -24,6 +28,10 @@ Transfer-Encoding: chunked
 }
 ```
 
+```csharp
+[HttpGet("NotImplementedException")]
+public IActionResult GetNotImplementedException() => throw new NotImplementedException();
+```
 ```
 curl.exe -i -X 'GET' 'http://localhost:5220/problemdetails/notimplementedexception'
 
@@ -44,6 +52,10 @@ Transfer-Encoding: chunked
 }
 ```
 
+```csharp
+[HttpGet("NotFound")]
+public IActionResult GetNotFound() => NotFound();
+```
 ```
 curl.exe -i -X 'GET' 'http://localhost:5220/problemdetails/notfound'
 
@@ -61,6 +73,10 @@ Transfer-Encoding: chunked
 }
 ```
 
+```csharp
+[HttpGet("404")]
+public void Get404() => this.Response.StatusCode = 404;
+```
 ```
 curl.exe -i -X 'GET' 'http://localhost:5220/problemdetails/404'
 
@@ -78,6 +94,14 @@ Transfer-Encoding: chunked
 }
 ```
 
+```csharp
+[HttpGet("CustomBadRequest")]
+public IActionResult GetCustomBadRequest() => BadRequest(new
+{
+    A = 1,
+    B = "ff"
+});
+```
 ```
 curl.exe -i -X 'GET' 'http://localhost:5220/problemdetails/custombadrequest'
 
