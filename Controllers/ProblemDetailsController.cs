@@ -24,5 +24,8 @@ namespace ProblemDetails.Controllers
             A = 1,
             B = "ff"
         });
+
+        [HttpGet("Problem")]
+        public void GetProblem() => Problem();
     }
 }
